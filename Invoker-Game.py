@@ -70,25 +70,26 @@ while True:
                         if event.key == pygame.K_r:
                                 invoke.play()
                                 pops = None
-                                if ['quas', 'wex', 'exort'] or ['quas', 'exort', 'wex'] or ['exort', 'wex', 'quas'] or ['exort', 'quas', 'wex'] or ['wex', 'quas', 'exort'] or ['wex', 'exort', 'quas'] == spheres:
+                                current = spheres
+                                if ['exort', 'quas', 'wex'].sort() == current.sort():
                                         pops = 'deafenningblast'
-                                if ['wex', 'wex', 'exort'] or ['wex', 'exort', 'wex'] or ['exort', 'wex', 'wex'] or ['exort', 'wex', 'wex'] or ['wex', 'wex', 'exort'] or ['wex', 'exort', 'wex'] == spheres:
+                                if ['wex', 'wex', 'exort'].sort() == current.sort():
                                         pops = 'alacrity'
-                                if ['wex', 'exort', 'exort'] or ['wex', 'exort', 'exort'] or ['exort', 'exort', 'wex'] or ['exort', 'wex', 'exort'] or ['exort', 'wex', 'exort'] or ['exort', 'exort', 'wex'] == spheres:
+                                if ['wex', 'exort', 'exort'].sort() == current.sort():
                                         pops = 'chaosmeteor'
-                                if ['quas', 'quas', 'quas'] == spheres:
+                                if ['quas', 'quas', 'quas'].sort() == current.sort():
                                         pops = 'coldsnap'
-                                if ['wex', 'wex', 'wex'] == spheres:
+                                if ['wex', 'wex', 'wex'].sort() == current.sort():
                                         pops = 'emp'
-                                if ['quas', 'exort', 'exort'] or ['quas', 'exort', 'exort'] or ['exort', 'exort', 'quas'] or ['exort', 'quas', 'exort'] or ['exort', 'quas', 'exort'] or ['exort', 'exort', 'quas'] == spheres:
+                                if ['quas', 'exort', 'exort'].sort() == current.sort():
                                         pops = 'forgespirit'
-                                if ['quas', 'quas', 'wex'] or ['quas', 'wex', 'quas'] or ['wex', 'quas', 'quas'] or ['wex', 'quas', 'quas'] or ['quas', 'quas', 'wex'] or ['quas', 'wex', 'quas'] == spheres:
+                                if ['quas', 'quas', 'wex'].sort() == current.sort():
                                         pops = 'ghostwalk'
-                                if ['quas', 'quas', 'exort'] or ['quas', 'exort', 'quas'] or ['exort', 'quas', 'quas'] or ['exort', 'quas', 'quas'] or ['quas', 'quas', 'exort'] or ['quas', 'exort', 'quas'] == spheres:
+                                if ['quas', 'quas', 'exort'].sort() == current.sort():
                                         pops = 'icewall'
-                                if ['exort', 'exort', 'exort'] == spheres:
+                                if ['exort', 'exort', 'exort'].sort() == current.sort():
                                         pops = 'sunstrike'
-                                if ['quas', 'wex', 'wex'] or ['quas', 'wex', 'wex'] or ['wex', 'wex', 'quas'] or ['wex', 'quas', 'wex'] or ['wex', 'quas', 'wex'] or ['wex', 'wex', 'quas'] == spheres:
+                                if ['quas', 'wex', 'wex'].sort() == current.sort():
                                         pops = 'tornado'
                                 icons.pop(pops, None)
 
