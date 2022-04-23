@@ -1,7 +1,8 @@
+from tkinter import N
 import pygame
 import random
 
-width = 500
+width = 300
 height = 500
 fps = 30
 
@@ -37,8 +38,7 @@ deafenningblast = pygame.image.load('./assets/deafenningblast.png')
 coldsnap = pygame.image.load('./assets/coldsnap.png')
 chaosmeteor = pygame.image.load('./assets/chaosmeteor.png')
 alacrity = pygame.image.load('./assets/alacrity.png')
-abilities = [sunstrike, tornado, icewall, ghostwalk, forgespirit, emp, deafenningblast, coldsnap, chaosmeteor, alacrity]
-names = ['sunstrike', 'tornado', 'icewall', 'ghostwalk', 'forgespirit', 'emp', 'deafenningblast', 'coldsnap', 'chaosmeteor', 'alacrity']
+abilities = {'sunstrike' : sunstrike, 'tornado' : tornado, 'icewall' : icewall, 'ghostwalk' : ghostwalk, 'forgespirit' : forgespirit, 'emp' : emp, 'deafenningblast' : deafenningblast, 'coldsnap' : coldsnap, 'chaosmeteor' : chaosmeteor, 'alacrity' : alacrity}
 
 quas = pygame.image.load('./assets/quas.png')
 wex = pygame.image.load('./assets/wex.png')
@@ -50,6 +50,7 @@ invoke = pygame.mixer.Sound('./assets/invoke.ogg')
 
 icons = dict()
 spheres = list()
+spheresVisual = list()
 ticks = 300
 global speed
 speed = 1
@@ -61,64 +62,49 @@ while True:
                 if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_q:
                                 spheres.append('quas')
+                                spheresVisual.append(quas)
                         if event.key == pygame.K_w:
                                 spheres.append('wex')
+                                spheresVisual.append(wex)
                         if event.key == pygame.K_e:
                                 spheres.append('exort')
-                        if len(spheres) > 3:
+                                spheresVisual.append(exort)
+                        if len(spheresVisual) > 3:
                                 spheres.pop(0)
+                                spheresVisual.pop(0)
                         if event.key == pygame.K_r:
-                                invoke.play()
-                                pops = None
-                                current = spheres
-                                if ['exort', 'quas', 'wex'].sort() == current.sort():
-                                        pops = 'deafenningblast'
-                                if ['wex', 'wex', 'exort'].sort() == current.sort():
-                                        pops = 'alacrity'
-                                if ['wex', 'exort', 'exort'].sort() == current.sort():
-                                        pops = 'chaosmeteor'
-                                if ['quas', 'quas', 'quas'].sort() == current.sort():
-                                        pops = 'coldsnap'
-                                if ['wex', 'wex', 'wex'].sort() == current.sort():
-                                        pops = 'emp'
-                                if ['quas', 'exort', 'exort'].sort() == current.sort():
-                                        pops = 'forgespirit'
-                                if ['quas', 'quas', 'wex'].sort() == current.sort():
-                                        pops = 'ghostwalk'
-                                if ['quas', 'quas', 'exort'].sort() == current.sort():
-                                        pops = 'icewall'
-                                if ['exort', 'exort', 'exort'].sort() == current.sort():
-                                        pops = 'sunstrike'
-                                if ['quas', 'wex', 'wex'].sort() == current.sort():
-                                        pops = 'tornado'
-                                icons.pop(pops, None)
+                                res = None
+                                spheres.sort()
+                                if ['exort', 'quas', 'wex'] == spheres:
+                                        res = 'deafenningblast'
+                                if ['exort', 'wex', 'wex'] == spheres:
+                                        res = 'alacrity'
+                                if ['exort', 'exort', 'wex'] == spheres:
+                                        res = 'chaosmeteor'
+                                if ['quas', 'quas', 'quas'] == spheres:
+                                        res = 'coldsnap'
+                                if ['wex', 'wex', 'wex'] == spheres:
+                                        res = 'emp'
+                                if ['exort', 'exort', 'quas'] == spheres:
+                                        res = 'forgespirit'
+                                if ['quas', 'quas', 'wex'] == spheres:
+                                        res = 'ghostwalk'
+                                if ['exort', 'quas', 'quas'] == spheres:
+                                        res = 'icewall'
+                                if ['exort', 'exort', 'exort'] == spheres:
+                                        res = 'sunstrike'
+                                if ['quas', 'wex', 'wex'] == spheres:
+                                        res = 'tornado'
+                                if icons.get(res) != None:
+                                        icons.__delitem__(res)
+                                        invoke.play()
 
         screen.fill((50, 50, 50))
-        screen.blit(bg, (100, 0))
+        screen.blit(bg, (0, 0))
 
         if ticks == 0:
                 ticks = 300
                 speed += 1
-
-        if len(icons) < 3:
-                if 1 not in icons.values():
-                        icons[random.choice(names)] = [1, Icon(random.choice(abilities), 100, 0)]
-                if 2 not in icons.values():
-                        icons[random.choice(names)] = [2, Icon(random.choice(abilities), 200, 0)]
-                if 3 not in icons.values():
-                        icons[random.choice(names)] = [3, Icon(random.choice(abilities), 300, 0)]
-        
-        coords = 100
-        for i in spheres:
-                if i == 'quas':
-                        screen.blit(quas, (coords, 400))
-                        coords += 100
-                if i == 'wex':
-                        screen.blit(wex, (coords, 400))
-                        coords += 100
-                if i == 'exort':
-                        screen.blit(exort, (coords, 400))
-                        coords += 100
 
         pops = list()
         for i in icons:
@@ -129,6 +115,25 @@ while True:
         for i in pops:
                 icons.pop(i)
         pops.clear()
+
+        if len(icons) < 3:
+                a = random.choices(list(abilities.keys()), k=3)
+                if len(icons) > 0:
+                        if 1 not in list(icons.values())[0]:
+                                icons[a[0]] = [1, Icon(abilities[a[0]], 0, 0)]
+                        if 2 not in list(icons.values())[0]:
+                                icons[a[1]] = [2, Icon(abilities[a[1]], 100, 0)]
+                        if 3 not in list(icons.values())[0]:
+                                icons[a[2]] = [3, Icon(abilities[a[2]], 200, 0)]
+                else:
+                        icons[a[0]] = [1, Icon(abilities[a[0]], 0, 0)]
+                        icons[a[1]] = [2, Icon(abilities[a[1]], 100, 0)]
+                        icons[a[2]] = [3, Icon(abilities[a[2]], 200, 0)]
+                
+        coords = 0
+        for i in spheresVisual:
+                screen.blit(i, (coords, 400))
+                coords += 100
 
         pygame.display.update()
         ticks -= 1
