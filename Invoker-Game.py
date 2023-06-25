@@ -60,6 +60,8 @@ while True:
                 if event.type == pygame.QUIT:
                         quit()
                 if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESPACE:
+                                quit()
                         if event.key == pygame.K_q:
                                 spheres.append('quas')
                                 spheresVisual.append(quas)
@@ -116,7 +118,7 @@ while True:
                 icons.pop(i)
         pops.clear()
 
-        if len(icons) < 3:
+        if len(icons) < 2:
                 a = random.choices(list(abilities.keys()), k=3)
                 if len(icons) > 0:
                         if 1 not in list(icons.values())[0]:
